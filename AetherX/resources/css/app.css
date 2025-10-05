@@ -1,0 +1,241 @@
+:root {
+    --dark-bg: #0d1117;
+    --main-blue: #007bff;
+    --light-blue: #00bfff;
+    --border-color: #3e4a5d;
+    --font-color: #e6edf4;
+    --card-bg: rgba(22, 27, 34, 0.7);
+    --score-color-high: #4dff4d;
+}
+
+/* 1. تنسيق الجسم والخلفية */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Consolas','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--font-color);
+    /* لا نحتاج لـ flexbox هنا، سنعتمد على التموضع المطلق */
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 3. اللوحة الجانبية (Panel) - ثابتة على اليمين في RTL */
+.main-container {
+    width: 25%;
+    min-width: 350px; /* ضمان عرض جيد على شاشات الكمبيوتر */
+    height: 90vh;
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    background-color: var(--card-bg); /* خلفية شفافة قليلاً */
+    box-shadow: 0 0 25px rgba(0, 191, 255, 0.4); /* ظل نيون */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    margin-right: 20px; /* مسافة من حافة الشاشة */
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%); /* توسيط عمودي */
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+/* 4. تنسيق باقي العناصر */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--light-blue);
+}
+.header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.data-panel {
+    /* تم دمج التنسيق في main-container، لكن نتركه للنماذج الداخلية */
+    width: 100%;
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* إزالة الخلفية والحدود المكررة هنا */
+    background: none; 
+    border: none;
+    padding: 0;
+}
+.data-panel h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--score-color-high);
+}
+.habitability-score {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.score-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 4px solid var(--score-color-high);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--font-color);
+    /* سيتم تحديث background بالـ JS */
+    background: conic-gradient(var(--score-color-high) 82%, transparent 82%); 
+}
+.score-text {
+    display: flex;
+    flex-direction: column;
+}
+.details p {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.details p .icon {
+    color: var(--score-color-high);
+}
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+button{
+    padding: 12px 25px;
+    border: 2px solid var(--light-blue);
+    background-color: rgba(0, 191, 255, 0.1);
+    color: var(--light-blue);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px var(--light-blue);
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+a{
+    text-decoration: none;
+}
+button:hover{
+    background-color: var(--light-blue);
+    color: var(--dark-bg);
+    box-shadow: 0 0 15px var(--light-blue), 0 0 30px var(--light-blue);
+}
+
+.navigation-controls{
+    display: flex;
+    justify-content: center; /* توسيط في منتصف الشاشة */
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    width: 100%; 
+    z-index: 20; /* فوق كل شيء */
+}
+
+.navigation-controls button {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    margin: 0 15px;
+}
+
+.scroll-table {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.scroll-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scroll-table th, .scroll-table td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    text-align: right;
+}
+
+.scroll-table th {
+    background-color: rgba(0, 191, 255, 0.2);
+    color: #fff;
+}
+
+
+.hidden {
+    display: none;
+}
+
+/* تنسيق بسيط لنموذج الإدخال */
+.input-form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--score-color-high);
+}
+.input-form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #161b22;
+    color: var(--font-color);
+}
+.input-form button[type="submit"] {
+    margin-top: 25px;
+    background-color: var(--score-color-high);
+    color: var(--dark-bg);
+    border: none;
+    box-shadow: 0 0 10px var(--score-color-high);
+}
+.input-form button[type="submit"]:hover {
+    background-color: #39cc39;
+    box-shadow: 0 0 20px var(--score-color-high);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .main-container {
+        width: 90%;
+        max-width: none;
+        height: auto;
+        right: 50%;
+        top: 20px; /* نضعه في الأعلى بدلاً من التوسيط */
+        transform: translateX(50%);
+        padding: 15px;
+        margin: 0 auto;
+        position: absolute; /* يجب أن يبقى ثابتاً فوق الـ 3D */
+    }
+    .navigation-controls {
+        bottom: 10px;
+    }
+    .navigation-controls button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    .header h1 {
+        font-size: 20px;
+    }
+    .scroll-table {
+        overflow-y: scroll;
+    }
+}
